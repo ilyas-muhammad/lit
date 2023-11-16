@@ -1,5 +1,5 @@
 const request = require('supertest');
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const httpStatus = require('http-status');
 const httpMocks = require('node-mocks-http');
 const moment = require('moment');
@@ -23,9 +23,11 @@ describe('Auth routes', () => {
     let newUser;
     beforeEach(() => {
       newUser = {
-        name: faker.name.findName(),
+        name: faker.person.fullName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
+        username: 'fakename123',
+        photoProfile: 'https://image.com'
       };
     });
 
@@ -37,6 +39,8 @@ describe('Auth routes', () => {
         id: expect.anything(),
         name: newUser.name,
         email: newUser.email,
+        username: newUser.username,
+        photoProfile: newUser.photoProfile,
         role: 'user',
         isEmailVerified: false,
       });
@@ -61,6 +65,7 @@ describe('Auth routes', () => {
     test('should return 400 error if email is already used', async () => {
       await insertUsers([userOne]);
       newUser.email = userOne.email;
+      newUser.username = userOne.username;
 
       await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
@@ -95,6 +100,8 @@ describe('Auth routes', () => {
       expect(res.body.user).toEqual({
         id: expect.anything(),
         name: userOne.name,
+        username: userOne.username,
+        photoProfile: userOne.photoProfile,
         email: userOne.email,
         role: userOne.role,
         isEmailVerified: userOne.isEmailVerified,
