@@ -43,6 +43,8 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
+ *               - username
+ *               - photoProfile
  *               - email
  *               - password
  *               - role

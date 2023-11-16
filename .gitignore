@@ -1,6 +1,9 @@
 # Dependencies
 node_modules
 
+# Static Files
+static
+
 # yarn error logs
 yarn-error.log
 

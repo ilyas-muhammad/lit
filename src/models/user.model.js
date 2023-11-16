@@ -11,6 +11,22 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate(value) {
+        if (!validator.isAlphanumeric(value)) {
+          throw new Error('Username must contain only letters and numbers');
+        }
+      }
+    },
+    photoProfile: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -60,8 +76,8 @@ userSchema.plugin(paginate);
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+userSchema.statics.isEmailOrUsernameTaken = async function (email, username, excludeUserId) {
+  const user = await this.findOne({ email, username, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

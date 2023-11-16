@@ -38,10 +38,17 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
+ *               - photoProfile
+ *               - username
  *               - email
  *               - password
  *             properties:
  *               name:
+ *                 type: string
+ *               photoProfile:
+ *                 type: string
+ *                 format: url
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -56,6 +63,8 @@ module.exports = router;
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
+ *               username: fakename123
+ *               photoProfile: https://i.pravatar.cc/300
  *     responses:
  *       "201":
  *         description: Created

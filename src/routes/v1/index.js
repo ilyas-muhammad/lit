@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+const uploadRoute = require('./upload.route');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
@@ -14,6 +16,10 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/upload',
+    route: uploadRoute,
   },
 ];
 
@@ -35,5 +41,7 @@ if (config.env === 'development') {
     router.use(route.path, route.route);
   });
 }
+
+router.use('/static', express.static(path.join(__dirname, '../../../static')));
 
 module.exports = router;
